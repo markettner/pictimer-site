@@ -265,7 +265,7 @@ footer {
 .doc .updated { color: var(--ink-faint); font-size: 0.9rem; margin: 0.4rem 0 2rem; }
 
 .doc .card { margin-bottom: 1.25rem; }
-.doc .card h2 { font-size: 1.25rem; font-weight: 600; color: var(--accent); margin-bottom: 0.6rem; }
+.doc .card h2 { font-size: 1.25rem; font-weight: 600; color: var(--ink); margin-bottom: 0.6rem; }
 .doc .card p { margin-bottom: 0.8rem; }
 .doc .card p:last-child { margin-bottom: 0; }
 
@@ -294,7 +294,7 @@ footer {
   content: "✓";
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--ink);
   font-weight: 700;
 }
 
