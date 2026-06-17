@@ -1,0 +1,131 @@
+/* ============================================================================
+   Pictimer — animated glass-orb background
+   ----------------------------------------------------------------------------
+   A self-contained background module. Drop a single empty element into a page:
+
+       <div class="glass-bg" data-glass-bg></div>
+
+   and load glass-bg.css + glass-bg.js. Every visual knob is a CSS custom
+   property set on .glass-bg, so it can be re-themed (or live-tuned) by writing
+   a handful of variables — no markup changes required.
+
+   Layer stack (back to front):
+     .glass-bg            base "canvas" colour the orbs blend onto
+       .glass-bg__orbs    8 colored glass orbs, drifting, blended together
+       .glass-bg__frost   frosted dark-glass overlay (backdrop blur + tint)
+   ========================================================================== */
+
+.glass-bg {
+  /* ---- tunable knobs ---------------------------------------------------- *
+   * Defaults below are the locked "bright" (day) look and follow the OS:
+   * the prefers-color-scheme media query swaps in the "night" look. Pages
+   * that set these variables inline (the lab demos) override the OS default. */
+  --canvas: #ffffff;            /* colour behind the orbs                     */
+  --blend: multiply;            /* how orbs combine                           */
+  --orb-opacity: 1;             /* per-orb translucency                       */
+  --orb-blur: 0px;              /* soft edge on each orb                      */
+  --orb-scale: 0.75;            /* overall orb size multiplier                */
+  --dur: 26s;                   /* base drift cycle; --speed scales it        */
+  --speed: 0.3;                 /* 1 = base, >1 = slower, <1 = faster         */
+  --tint: rgba(255, 255, 255, 0); /* frosted-glass colour + opacity          */
+  --frost-blur: 100px;          /* heaviness of the frosted blur              */
+  --frost-saturate: 1.5;        /* keep colours lively through the frost      */
+
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--canvas);
+}
+
+/* "Night" look — applied automatically when the OS is in dark mode. */
+@media (prefers-color-scheme: dark) {
+  .glass-bg {
+    --canvas: #000000;
+    --blend: hard-light;
+    --tint: rgba(0, 0, 0, 0.25);
+    /* orb-opacity / orb-blur / orb-scale / frost-blur / frost-saturate /
+       speed are shared with the bright look */
+  }
+}
+
+/* Orbs live in their own isolated stacking context so their blend modes mix
+   only with each other and the canvas — not with the page behind. */
+.glass-bg__orbs {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  background: var(--canvas);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: var(--blend);
+  opacity: var(--orb-opacity);
+  filter: blur(var(--orb-blur));
+  will-change: transform;
+  /* radial gradient gives the orb a lit "glass" falloff toward its edge */
+  background: radial-gradient(circle at 38% 32%,
+              color-mix(in srgb, var(--c) 55%, white) 0%,
+              var(--c) 55%,
+              color-mix(in srgb, var(--c) 70%, black) 100%);
+  animation-name: var(--drift);
+  animation-duration: calc(var(--dur) * var(--speed));
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-delay: var(--delay, 0s);
+}
+
+/* The 8 icon colours, sizes, starting positions and drift paths.
+   JS stamps --c / --drift / --delay; geometry lives here per orb. */
+.orb:nth-child(1) { --c:#ef8d34; width:52vmax; height:52vmax; top:-12%; left:-8%; } /* orange   */
+.orb:nth-child(2) { --c:#f7ce52; width:46vmax; height:46vmax; top:-16%; left:32%; } /* yellow   */
+.orb:nth-child(3) { --c:#9dd34b; width:50vmax; height:50vmax; top:-10%; left:62%; } /* green    */
+.orb:nth-child(4) { --c:#60d18a; width:48vmax; height:48vmax; top:30%;  left:66%; } /* mint     */
+.orb:nth-child(5) { --c:#4daaea; width:44vmax; height:44vmax; top:58%;  left:60%; } /* blue     */
+.orb:nth-child(6) { --c:#9b90d5; width:52vmax; height:52vmax; top:60%;  left:18%; } /* lavender */
+.orb:nth-child(7) { --c:#ed6eab; width:50vmax; height:50vmax; top:24%;  left:24%; } /* pink     */
+.orb:nth-child(8) { --c:#eb5f66; width:46vmax; height:46vmax; top:34%;  left:-10%; } /* red      */
+
+/* size multiplier without disturbing the per-orb width/height */
+.orb { transform: scale(var(--orb-scale)); }
+
+/* Frosted dark-glass overlay: blurs everything behind it and tints. */
+.glass-bg__frost {
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  -webkit-backdrop-filter: blur(var(--frost-blur)) saturate(var(--frost-saturate));
+  backdrop-filter: blur(var(--frost-blur)) saturate(var(--frost-saturate));
+}
+
+/* Experimental refraction: warp the orb layer with an SVG displacement map.
+   Toggled by adding .refraction on .glass-bg. */
+.glass-bg.refraction .glass-bg__orbs {
+  filter: url(#glass-refraction);
+}
+
+/* Drift paths — gentle, each different so the ensemble never visibly loops.
+   Combined with animation-direction:alternate they ease back and forth. */
+@keyframes drift-a { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(14vmax, 8vmax); } }
+@keyframes drift-b { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(-12vmax, 12vmax); } }
+@keyframes drift-c { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(-16vmax, -6vmax); } }
+@keyframes drift-d { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(10vmax, -14vmax); } }
+@keyframes drift-e { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(-10vmax, -12vmax); } }
+@keyframes drift-f { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(15vmax, -9vmax); } }
+@keyframes drift-g { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(13vmax, 13vmax); } }
+@keyframes drift-h { from { transform: scale(var(--orb-scale)) translate(0,0); }
+                     to   { transform: scale(var(--orb-scale)) translate(-14vmax, 7vmax); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
+}

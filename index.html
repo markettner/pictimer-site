@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pictimer — Rebuild your photos' timestamps</title>
+  <meta name="description"
+    content="Photos that lost their timestamps pile up in your library. Tell Pictimer when a batch was taken and it spreads believable times across every shot — for WhatsApp dumps, old scans and metadata disasters. On-device, in Apple Photos.">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="assets/app-icon.png">
+  <link rel="apple-touch-icon" href="assets/app-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="glass-bg.css">
+  <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+  <div class="glass-bg" data-glass-bg></div>
+
+  <main class="page">
+    <section class="hero">
+      <img src="assets/app-icon.png" alt="Pictimer app icon" class="app-icon">
+      <h1>Pictimer</h1>
+      <p class="tagline">Photos that lost their timestamps end up in a heap in your library.
+        Tell Pictimer roughly when a batch was taken, and it gives every shot a believable
+        time — right inside Apple Photos.</p>
+
+      <div class="pills">
+        <span class="pill">📱 iPhone</span>
+        <span class="pill">📱 iPad</span>
+        <span class="pill">💻 Mac</span>
+        <span class="pill">🔒 On-device</span>
+      </div>
+
+      <div class="coming-soon"><span class="dot"></span> Coming soon to the App Store</div>
+
+      <div class="features">
+        <div class="card">
+          <div class="emoji">🎞️</div>
+          <h3>Set the bookends, skip the busywork</h3>
+          <p>Sort a batch by filename, capture date or file size, then tell Pictimer when the
+            first and last photo were taken. It works out an even interval and writes a
+            timestamp to everything in between. Lock any two of start, end and interval — it
+            calculates the third.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🧩</div>
+          <h3>Made for metadata disasters</h3>
+          <p>WhatsApp and friends strip dates on the way in, dumping dozens of photos onto one
+            identical timestamp — or none at all. Pictimer spots those clusters, colour-codes
+            them, and lets you re-time the whole group in a couple of taps.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🌅</div>
+          <h3>Peace of mind over precision</h3>
+          <p>No one can recover the exact moment each shot was taken, and Pictimer is honest
+            about that — it's throwing darts at a timeline. But a sensible order beats a wall
+            of identical times. Built for the people who curate their library like their
+            record collection.</p>
+        </div>
+      </div>
+
+      <p class="cross-label">The dream team</p>
+      <a class="crosspromo" href="https://ditto.kettner.berlin/" target="_blank" rel="noopener">
+        <img src="assets/ditto-icon.png" alt="Ditto app icon">
+        <span>
+          <span class="cp-name">Ditto</span>
+          <span class="cp-desc">Still have the original photo? Ditto copies its date and
+            location straight onto your edits and AI creations, so they slot back in beside it.</span>
+        </span>
+        <span class="cp-arrow">→</span>
+      </a>
+
+      <div class="foot-links">
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="support.html">Support</a>
+      </div>
+
+      <footer>
+        ©
+        <script>document.write(new Date().getFullYear())</script> Markus Kettner
+      </footer>
+    </section>
+  </main>
+
+  <script src="glass-bg.js"></script>
+</body>
+
+</html>
