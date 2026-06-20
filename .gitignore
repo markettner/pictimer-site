@@ -1,7 +1,2 @@
 .DS_Store
 .claude/
-
-# Local-only background lab / projector visualizer (kept off the public site)
-playground.html
-lab.html
-presets/
