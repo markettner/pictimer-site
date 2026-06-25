@@ -124,26 +124,19 @@ body {
   border-radius: 999px;
 }
 
-.coming-soon {
+/* ---- App Store button ---------------------------------------------------- */
+.app-store-link {
+  display: inline-block;
   margin-top: 2rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--ink);
-  background: var(--pill-bg);
-  border: 1px solid var(--pill-border);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
-  padding: 0.7rem 1.3rem;
-  border-radius: 999px;
-  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
-.coming-soon .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 28%, transparent);
+.app-store-link:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+.app-store-badge {
+  height: 54px;
+  width: auto;
 }
 
 /* ---- feature cards ------------------------------------------------------- */
